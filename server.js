@@ -58,10 +58,9 @@ io.on('connection', function (socket) {
     io.emit('enemyCreated', data);
   });
 
-  socket.on('gameOver', function () {
-    io.emit('gameOver');
+  socket.on('scoreUpdate', function (data) {
+    socket.broadcast.emit('scoreUpdate', data);
   });
-
 
 
 });

@@ -116,6 +116,12 @@ class playGame extends Phaser.Scene {
         self.stopTheGame(null, null)
     });
 
+    this.socket.on('scoreUpdate', function (data) {
+      var container = self.playersSprite[data.playerId];
+      var score = container.getAt(1);
+      score.setText("Score: " + data.score);
+    });
+
     this.physics.world.on('worldbounds', this.onWorldBounds, this)
     
   }
@@ -159,7 +165,9 @@ class playGame extends Phaser.Scene {
           var score = container.getAt(1);
           
           score.setText("Score: " + self.score);
+          self.socket.emit('scoreUpdate', {score:self.score, playerId: self.socket.id})
           delete self.enemies[id];
+
         }
         
 
