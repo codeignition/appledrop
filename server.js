@@ -11,7 +11,18 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
 });
  
+
+ setTimeout(function prn(i){
+    console.log('Creating enemy');
+    io.emit('enemyCreated', {x: 360, y: Math.floor(Math.random() * 450)});
+    setTimeout(prn, 2000, i);
+  }, 2000, 0);
+
+
 io.on('connection', function (socket) {
+
+  
+
   console.log('a user connected');
   
   // create a new player and add it to our players object
@@ -42,12 +53,6 @@ io.on('connection', function (socket) {
 
   socket.on('movementChanged', function (data) {
     socket.broadcast.emit('playerMoved', data);
-
-    if(Math.random() > .997 ){
-        console.log("creating an enemy")
-        io.emit('enemyCreated', {x: 360, y: Math.floor(Math.random() * 640)});
-    }
-
   });
 
   socket.on('enemyMoved', function (data) {
