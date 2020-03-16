@@ -4,13 +4,18 @@ class playGame extends Phaser.Scene {
   
   constructor() {
     super("PlayGame");
+    console.log("constructor");
+  }
+
+  preload() {
+
+    console.log("preload");
+    
     this.enemies = [];
   
     this.playersSprite = {};
     this.playerPreviousLocation = null
-  }
-
-  preload() {
+    this.score = 0;
 
 
     this.load.image("bird", "assets/ghost-small.png");
@@ -34,6 +39,7 @@ class playGame extends Phaser.Scene {
   }
 
   create() {
+
     var music = this.sound.add('backgroundSound');
     this.jumpSound = this.sound.add('jump');
 

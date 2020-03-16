@@ -24,8 +24,9 @@ class GameOverScene extends Phaser.Scene{
 	    playButton.on('pointerdown', () => { 
 	    	console.log(new Date().getTime() - self.previousTime > 10000);
 	    	if(self.previousTime == null || new Date().getTime() - self.previousTime > 1000) {
-		
-		    	this.scene.start('PlayGame');
+				this.scene.stop();
+				var theOtherScene = this.scene.get('PlayGame');
+		    	theOtherScene.scene.restart();
 		    	self.previousTime = new Date().getTime();
 	        }
 
