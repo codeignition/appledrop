@@ -24,6 +24,8 @@ class playGame extends Phaser.Scene {
          instances: 1
     });
 
+    this.score = 0;
+
     
   }
 
@@ -122,7 +124,6 @@ class playGame extends Phaser.Scene {
     if(data.gameObject.body.blocked.down) {
       this.stopTheGame(null, null);
     }
-
   }
 
   stopTheGame(enemies, bird) {
@@ -149,6 +150,22 @@ class playGame extends Phaser.Scene {
           
           this.playerPreviousLocation = {x: playerSprite.x, y: playerSprite.y,}
       }
+      var self = this;
+      Object.keys(this.enemies).forEach(function (id) {
+        var enemy = self.enemies[id];
+        if(enemy.x <= 0 && enemy.x >= -10){
+          self.score += 1;
+          var container = self.playersSprite[self.socket.id];
+          var score = container.getAt(1);
+          
+          score.setText("Score: " + self.score);
+          delete self.enemies[id];
+        }
+        
+
+      });
+
+
       
     this.mountainsBack.tilePositionX += 5;
   }
@@ -167,9 +184,9 @@ class playGame extends Phaser.Scene {
     container.body.onWorldBounds = true
     container.body.bounce.set(.3);
 
-    var score = this.add.text(20, -20, "you", {font: "16px Arial", fill: "#000000"});
+    var score = this.add.text(0, -20, "Score: 0", {font: "16px Arial", fill: "#000000"});
     
-    container.addAt([playerSprite, score], 10);
+    container.add([playerSprite, score]);
     this.playersSprite[player.playerId] = container;
   }
 
@@ -187,7 +204,7 @@ class playGame extends Phaser.Scene {
 
     var score = this.add.text(0, -20, "", {font: "16px Arial", fill: "#000000"});
     
-    container.addAt([playerSprite, score], 10);
+    container.add([playerSprite, score]);
 
     this.playersSprite[player.playerId] = container;
   }
@@ -196,12 +213,6 @@ class playGame extends Phaser.Scene {
     var pin = this.physics.add.sprite(enemy.x, enemy.y, 'pin');
     pin.setVelocity(-100, 10);
     this.enemies.push(pin);
-  }
-
-  addPin(x, y) {
-    var pin = this.physics.add.sprite(x, y, 'pin');
-    pin.setVelocity(-100, 10);
-    return this.enemies.push(pin);
   }
 }
 
