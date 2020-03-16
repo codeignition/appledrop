@@ -23,6 +23,8 @@ class playGame extends Phaser.Scene {
     this.load.audio('backgroundSound', 'assets/bg-music.mp3', {
          instances: 1
     });
+
+    
   }
 
   create() {
@@ -152,22 +154,42 @@ class playGame extends Phaser.Scene {
   }
 
   plotSelf(player){
+    var container = this.add.container(0, 0);
+    container.setExclusive(true);
+    
+    this.physics.world.enable(container);
+
     var playerSprite = this.physics.add.sprite(0, 0, 'bird');
-    playerSprite.setOrigin(0, 0);
-    playerSprite.setGravity(0, 500);
-    playerSprite.body.collideWorldBounds = true;
-    playerSprite.body.onWorldBounds = true
-    playerSprite.body.bounce.set(.3);
-    this.playersSprite[player.playerId] = playerSprite;
+    playerSprite.setOrigin(0,0);
+
+    container.body.setGravity(0, 500);
+    container.body.collideWorldBounds = true;
+    container.body.onWorldBounds = true
+    container.body.bounce.set(.3);
+
+    var score = this.add.text(20, -20, "you", {font: "16px Arial", fill: "#000000"});
+    
+    container.addAt([playerSprite, score], 10);
+    this.playersSprite[player.playerId] = container;
   }
 
   plotOther(player){
+    var container = this.add.container(0, 0);
+    container.setExclusive(true);
+    
+    this.physics.world.enable(container);
+
     var playerSprite = this.physics.add.sprite(0, 0, 'bird');
     playerSprite.setOrigin(0, 0);
-    playerSprite.x = player.x;
-    playerSprite.y = player.y;
+    container.body.x = player.x;
+    container.body.y = player.y;
     playerSprite.alpha = .1;
-    this.playersSprite[player.playerId] = playerSprite;
+
+    var score = this.add.text(0, -20, "", {font: "16px Arial", fill: "#000000"});
+    
+    container.addAt([playerSprite, score], 10);
+
+    this.playersSprite[player.playerId] = container;
   }
 
   addEnemy(enemy) {
