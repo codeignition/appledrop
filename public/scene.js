@@ -153,6 +153,9 @@ class playGame extends Phaser.Scene {
 
       if(this.socket != null && playerSprite != null){
           if(this.cursorKeys.space.isDown || this.input.activePointer.isDown) {
+            if (this.sound.context.state === 'suspended') {
+              this.sound.context.resume();
+            }
             this.jumpSound.play();
             playerSprite.body.setVelocity(0, -200)
           }
