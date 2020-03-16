@@ -24,6 +24,10 @@ class playGame extends Phaser.Scene {
          instances: 1
     });
 
+    this.load.audio('jump', 'assets/flamestrike.mp3', {
+         instances: 1
+    });
+
     this.score = 0;
 
     
@@ -31,6 +35,7 @@ class playGame extends Phaser.Scene {
 
   create() {
     var music = this.sound.add('backgroundSound');
+    this.jumpSound = this.sound.add('jump');
 
     music.setLoop(true)
 
@@ -148,6 +153,7 @@ class playGame extends Phaser.Scene {
 
       if(this.socket != null && playerSprite != null){
           if(this.cursorKeys.space.isDown || this.input.activePointer.isDown) {
+            this.jumpSound.play();
             playerSprite.body.setVelocity(0, -200)
           }
           
