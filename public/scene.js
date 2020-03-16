@@ -24,7 +24,7 @@ class playGame extends Phaser.Scene {
          instances: 1
     });
 
-    this.load.audio('jump', 'assets/flamestrike.mp3', {
+    this.load.audio('jump', ['assets/flamestrike.mp3', 'assets/flamestrike.wav'], {
          instances: 1
     });
 
