@@ -161,11 +161,16 @@ class playGame extends Phaser.Scene {
   }
 
   stopTheGame(enemies, bird) {
-    
-    let gameOverScene = new GameOverScene()
-    this.socket.disconnect();
-    this.scene.start('GameOverScene')
-    this.scene.stop('PlayGame')
+    this.cameras.main.shake(500);
+ 
+    this.cameras.main.fade(250);
+    this.time.delayedCall(250, function() {
+      this.socket.disconnect();
+      this.scene.start('GameOverScene')
+      this.scene.stop('PlayGame')
+    }, [], this);
+       
+   
   }
   
 
@@ -251,7 +256,9 @@ class playGame extends Phaser.Scene {
 
   addEnemy(enemy) {
     var pin = this.physics.add.sprite(enemy.x, enemy.y, 'pin');
+
     pin.setVelocity(-100, 10);
+    
     this.enemies.push(pin);
   }
 }
