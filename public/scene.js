@@ -22,6 +22,8 @@ class playGame extends Phaser.Scene {
 
     this.load.image('pin', "../assets/cross-small.png");
     this.load.image('mountains-back', "../assets/fenc-small.png");
+     this.load.atlas('flares', 'assets/flares.png', 'assets/flares.json');
+
 
     this.cursorKeys = this.input.keyboard.createCursorKeys();
     this.cameras.main.backgroundColor = Phaser.Display.Color.HexStringToColor("#697e96");
@@ -39,6 +41,21 @@ class playGame extends Phaser.Scene {
   }
 
   create() {
+    var particles = this.add.particles('flares');
+
+    var particles = this.add.particles('flares');
+
+    particles.createEmitter({
+          frame: 'blue',
+          x: {min: 0, max: 800},
+          y: 0,
+          lifespan: 1000,
+          speedY: 800,
+          scaleY: .5,
+          scaleX: .01,
+          quantity: 10,
+          blendMode: 'ADD'
+    });
 
     var music = this.sound.add('backgroundSound');
     this.jumpSound = this.sound.add('jump');
