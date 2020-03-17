@@ -67,10 +67,10 @@ class playGame extends Phaser.Scene {
     var self = this;
     this.mountainsBack = this.add.tileSprite(0, game.config.height + 150, 5000, 500, 'mountains-back');
 
-
-    this.socket = io()
-
+    let gameName = new URLSearchParams(location.search).get('game_name');
     
+    this.socket = io.connect(window.location.origin, {query: 'room=' + gameName})
+
     this.socket.on('currentPlayers', function (players) {
       Object.keys(players).forEach(function (id) {
 
