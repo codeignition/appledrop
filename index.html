@@ -1,20 +1,100 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Apple Drop</title>
-	</head>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="static/img/favicon.ico">
 
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.22.0/phaser.min.js"></script>
-	
-	<script src="onboardingscene.js"></script>
-	<script src="menuscene.js"></script>
-	<script src="gameoverscene.js"></script>
-	<script src="scene.js"></script>
-	<script src="index.js"></script>
-	
-	<body style="margin: 0; border: 0; display: flex; justify-content: center;align-items: center; height: 100%; background-color: #697e96">
-	</body>
+    <title>AppleDrop</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="assets/bootstrap_css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Placing js here because few libraries need to load first. -->
+    <script src="assets/bootstrap_js/jquery-3.2.1.slim.min.js"></script>
+
+	<style type="text/css">
+		.main-page {
+			margin-top: 80px;
+		}
+		.new-game-text {
+			margin: 20px;
+			text-align: center;
+		}
+		#game-share-info {
+			margin-top: 15px;
+			margin-bottom: 15px;
+		}
+	</style>
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="#">AppleDrop</a>
+</nav>
+
+<div class="main-page" class="container-fluid">
+	<div class="row">
+		<div class="col-md-3"></div>
+		<div class="col-md-6">
+			<div class="new-game-text">
+				Please enter following details to create new game
+			</div>
+			<form>
+				<div class="form-group">
+					<label for="inputName">Name</label>
+					<input type="text" class="form-control" id="inputName" placeholder="Enter name" required>
+				</div>
+				<div class="form-group">
+					<label for="inputGameName">Game Name</label>
+					<input type="text" class="form-control" id="inputGameName" placeholder="Game Name" required>
+				</div>
+				<button id="create-game-action" type="button" class="btn btn-block btn-success">Create New Game</button>
+			</form>
+			<div id="game-share-info">
+				Please tap link below to share it on <i class="fab fa-whatsapp"></i>
+			</div>
+			<div id="game-card" class="card">
+				<div class="card-body">
+					<span id="game-link"></span>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3"></div>
+	</div>
+</div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="assets/bootstrap_js/popper.min.js"></script>
+<script src="assets/bootstrap_js/bootstrap.min.js"></script>
+<script src="https://use.fontawesome.com/releases/v5.12.1/js/all.js" data-auto-replace-svg="nest"></script>
+<script>
+	$(document).ready(function(){
+
+		var gameLink = '';
+
+		$('#game-card').hide()
+		$('#game-share-info').hide()
+		$('#create-game-action').on('click', function(){
+			$('#game-card').show()
+			$('#game-share-info').show()
+			gameLink = window.location.href + 'game?game_name=' + $('#inputGameName').val()
+			$('#game-link').text(gameLink)
+			var name = $('#inputName').val();
+			localStorage.setItem('name', name );
+		})
+		$('#game-card').on('click', function(){
+			var whatsAppText = "Don't join it if you are easily addicted: " + gameLink
+			var whatsAppLink = 'https://wa.me/?text=' + encodeURI(whatsAppText)
+			window.location.href= whatsAppLink
+		})
+	})
+</script>
+</body>
 </html>
