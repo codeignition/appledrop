@@ -17,7 +17,7 @@ class GameOverScene extends Phaser.Scene{
 		});
 		title.setPosition(game.config.width/2 - (game.config.width / 20 + 100), game.config.height/2);
 
-		const playButton = this.add.text(game.config.width/2 - (game.config.width / 20  + 100), game.config.height/2 + 50, 'PLAY AGAIN', { fontSize: game.config.width / 20});
+		const playButton = this.add.text(game.config.width/2 - (game.config.width / 20  + 100), game.config.height/2 + 50, 'RETRY', { fontSize: game.config.width / 20});
 	    playButton.setInteractive();
 	    
 	    var self = this;
