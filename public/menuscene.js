@@ -16,9 +16,8 @@ class MenuScene extends Phaser.Scene{
     let scale = Math.max(scaleX, scaleY)
     
     this.bg.setScale(scale).setScrollFactor(0)
+        this.bg.tint = Phaser.Display.Color.GetColor32(34, 34, 34, .9);
 
-		
-		
 		var name = '';
 		
 		if(localStorage.getItem('name') === null ) {

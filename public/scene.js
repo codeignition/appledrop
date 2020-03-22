@@ -32,7 +32,6 @@ class playGame extends Phaser.Scene {
 
 
         this.cursorKeys = this.input.keyboard.createCursorKeys();
-        this.cameras.main.backgroundColor = Phaser.Display.Color.HexStringToColor("#697e96");
         this.load.audio('backgroundSound', 'assets/bg-music.mp3', {
             instances: 1
         });
@@ -218,7 +217,7 @@ class playGame extends Phaser.Scene {
 
 
         this.mountainsBack.tilePositionX += 5;
-        var thunderProb = Math.random() > .995;
+        var thunderProb = Math.random() > .998;
 
         if (thunderProb === false && this.lastThunderTime != null && ((time - this.lastThunderTime) >= 200)) {
             this.bg.tint = Phaser.Display.Color.GetColor32(59, 59, 59, .5);
@@ -241,7 +240,7 @@ class playGame extends Phaser.Scene {
 
             if(this.thunderSoundPlayedTime == null || (time - this.thunderSoundPlayedTime >= 5000)) {
                 console.log("deven");
-                this.thunderSound.setVolume(Math.random());
+                this.thunderSound.setVolume(random(10, 50)/100);
                 this.thunderSound.play();
                 this.thunderSoundPlayedTime = time;
             }
