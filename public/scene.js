@@ -37,7 +37,7 @@ class playGame extends Phaser.Scene {
             instances: 1
         });
 
-        this.load.audio('jump', ['assets/flamestrike.mp3', 'assets/flamestrike.wav'], {
+        this.load.audio('thunder', ['assets/thunder.mp3', 'assets/thunder.wav'], {
             instances: 1
         });
 
@@ -65,7 +65,7 @@ class playGame extends Phaser.Scene {
         this.bg.tint = Phaser.Display.Color.GetColor32(34, 34, 34, .9);
 
         var music = this.sound.add('backgroundSound');
-        this.jumpSound = this.sound.add('jump');
+        this.thunderSound = this.sound.add('thunder');
 
         music.setLoop(true)
 
@@ -191,7 +191,6 @@ class playGame extends Phaser.Scene {
                 if (this.sound.context.state === 'suspended') {
                     this.sound.context.resume();
                 }
-                this.jumpSound.play();
                 playerSprite.body.setVelocity(0, -200)
             }
 
@@ -232,10 +231,20 @@ class playGame extends Phaser.Scene {
             }
         }
 
+
         if(this.showLightning === true) {
             this.animateLightning();
         }else if(thunderProb === true && this.showLightning === false) {
             this.showLightning = true;
+
+            console.log("deven");
+
+            if(this.thunderSoundPlayedTime == null || (time - this.thunderSoundPlayedTime >= 5000)) {
+                console.log("deven");
+                this.thunderSound.setVolume(Math.random());
+                this.thunderSound.play();
+                this.thunderSoundPlayedTime = time;
+            }
         }
 
 
