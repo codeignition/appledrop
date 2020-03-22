@@ -49,7 +49,7 @@ class playGame extends Phaser.Scene {
         this.showLightning = false;
         this.lastThunderTime = new Date().getTime();
 
-        this.playerName = localStorage.getItem('name');
+        this.playerName = localStorage.getItem('playerName');
 
     }
 

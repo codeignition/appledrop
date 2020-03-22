@@ -20,18 +20,18 @@ class MenuScene extends Phaser.Scene{
 
 		var name = '';
 		
-		if(localStorage.getItem('name') === null ) {
+		if(localStorage.getItem('playerName') === null ) {
 			name = prompt("Please enter your name to continue")
 			if(name === null){
 				window.location.reload();
 				return
 			}
 			else{
-				localStorage.setItem('name', name);
+				localStorage.setItem('playerName', name);
 			}
 	  }
 	  else {
-			name = localStorage.getItem('name');
+			name = localStorage.getItem('playerName');
 		}
 
 		var helloText = 'Hello ' + name + ''; 

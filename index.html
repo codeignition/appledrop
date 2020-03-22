@@ -107,7 +107,7 @@
 
 				if(isNameValid()){
 					const name = $('#inputName').val();
-					localStorage.setItem('name', name);
+					localStorage.setItem('playerName', name);
 					const randomId = generateRandomId(6);
 					gameLink = window.location.href + 'game?game_name=' + randomId;
 
