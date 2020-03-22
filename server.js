@@ -69,8 +69,8 @@ io.on('connection', function (socket) {
     // remove this player from our players array in a room
     playersInRooms[socketIdRoomNameMap[socket.id]] = playersInRooms[socketIdRoomNameMap[socket.id]].filter((p) => p.playerId !== socket.id)
     // emit a message to all players to remove this player
-    io.in(socketIdRoomNameMap[socket.id]).emit('disconnect', socket.id);
-    io.to(socketIdRoomNameMap[socket.id]).emit('disconnect', socket.id);
+    io.emit('disconnect', socket.id);
+    socket.in(socketIdRoomNameMap[socket.id]).emit('playerRemoved', socket.id);
 
     delete socketIdRoomNameMap[socket.id];
 
