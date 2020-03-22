@@ -15,11 +15,13 @@ class MenuScene extends Phaser.Scene{
 		var name = '';
 		
 		if(localStorage.getItem('name') === null ) {
-			var name = prompt("Please enter your name to continue")
-			console.log(name)
+			name = prompt("Please enter your name to continue")
 			if(name === null){
 				window.location.reload();
 				return
+			}
+			else{
+				localStorage.setItem('name', name);
 			}
 	  }
 	  else {

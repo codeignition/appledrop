@@ -35,8 +35,7 @@ class playGame extends Phaser.Scene {
          instances: 1
     });
 
-    this.score = 0;
-
+    this.playerName = localStorage.getItem('name');
     
   }
 
@@ -147,7 +146,7 @@ class playGame extends Phaser.Scene {
     this.socket.on('scoreUpdate', function (data) {
       var container = self.playersSprite[data.playerId];
       var score = container.getAt(1);
-      score.setText("Score: " + data.score);
+      score.setText(data.playerName + ": " + data.score);
     });
 
     this.physics.world.on('worldbounds', this.onWorldBounds, this)
@@ -201,8 +200,8 @@ class playGame extends Phaser.Scene {
           var container = self.playersSprite[self.socket.id];
           var score = container.getAt(1);
           
-          score.setText("Score: " + self.score);
-          self.socket.emit('scoreUpdate', {score:self.score, playerId: self.socket.id})
+          score.setText(self.playerName + ": " + self.score);
+          self.socket.emit('scoreUpdate', {score:self.score, playerId: self.socket.id, playerName: self.playerName})
           delete self.enemies[id];
 
         }
@@ -229,7 +228,7 @@ class playGame extends Phaser.Scene {
     container.body.onWorldBounds = true
     container.body.bounce.set(.3);
 
-    var score = this.add.text(0, -20, "Score: 0", {font: "16px Arial", fill: "#000000"});
+    var score = this.add.text(0, -20, this.playerName + ": 0", {font: "16px Arial", fill: "#000000"});
     
     container.add([playerSprite, score]);
     this.playersSprite[player.playerId] = container;
