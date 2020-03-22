@@ -1,20 +1,164 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Apple Drop</title>
-	</head>
 
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.22.0/phaser.min.js"></script>
-	
-	<script src="onboardingscene.js"></script>
-	<script src="menuscene.js"></script>
-	<script src="gameoverscene.js"></script>
-	<script src="scene.js"></script>
-	<script src="index.js"></script>
-	
-	<body style="margin: 0; border: 0; display: flex; justify-content: center;align-items: center; height: 100%;">
-	</body>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<link rel="static/img/favicon.ico">
+
+	<title>AppleDrop</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="assets/bootstrap_css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- Placing js here because few libraries need to load first. -->
+	<script src="assets/bootstrap_js/jquery-3.2.1.slim.min.js"></script>
+
+	<style type="text/css">
+		.main-page {
+			margin-top: 80px;
+		}
+
+		.new-game-text {
+			margin: 20px;
+			text-align: center;
+		}
+
+		#game-share-info {
+			margin-top: 15px;
+			margin-bottom: 15px;
+		}
+	</style>
+
+</head>
+
+<body>
+
+	<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+		<a class="navbar-brand" href="#">AppleDrop</a>
+	</nav>
+
+	<div class="main-page" class="container-fluid">
+		<div class="row">
+			<div class="col-md-3"></div>
+			<div class="col-md-6">
+				<div class="new-game-text">
+					Welcome to AppleDrop.
+				</div>
+				<div id="user-area-share"></div>
+				<div id="user-area">
+					<div class="new-game-text">
+						Please enter your name to start a new game.
+					</div>
+					<form>
+						<div class="form-group">
+							<label for="inputName">Name</label>
+							<input type="text" class="form-control" id="inputName" placeholder="Enter name" required>
+						</div>
+						<button id="create-game-action" type="button" class="btn btn-block btn-success">Create New Game</button>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3"></div>
+	</div>
+	</div>
+
+	<!-- Bootstrap core JavaScript
+================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="assets/bootstrap_js/popper.min.js"></script>
+	<script src="assets/bootstrap_js/bootstrap.min.js"></script>
+	<script src="https://use.fontawesome.com/releases/v5.12.1/js/all.js" data-auto-replace-svg="nest"></script>
+	<script>
+		$(document).ready(function () {
+
+			var gameLink = '';
+
+			var newGameGeneratedSuccessDOM = 'New game created. Please share link with your friends first and open the link below to start playing.' +
+																				'<div id="game-card" class="card">' +
+																				'<div class="card-body">' +
+    																			'<span id="game-link"></span>' +
+  																			'</div>' +
+																			'</div>';
+
+			var gameShareDOM = '<div id="game-share-info">' +
+															'<button id="share-url-whatsapp" type="button" class="btn btn-block btn-success">Share it on <i class="fab fa-whatsapp"></i></button>' +
+															'<button id="share-url-twitter" type="button" class="btn btn-block btn-primary">Share it on <i class="fab fa-twitter"></i></button>' +
+															'<button id="share-url-clipboard" type="button" class="btn btn-block btn-default">Copy URL to <i class="fas fa-clipboard"></button>' +
+													'</div>';
+
+			var playGameButtonDOM = '<button id="play" type="button" class="btn btn-block btn-success" style="text-align:center;">Play</button>'
+
+			$('#create-game-action').on('click', function () {
+
+				if(isNameValid()){
+					const name = $('#inputName').val();
+					localStorage.setItem('name', name);
+					const randomId = generateRandomId(6);
+					gameLink = window.location.href + 'game?game_name=' + randomId;
+
+					//unmount existing DOM
+					$('#user-area').remove();
+					//mount share option DOM
+					$('#user-area-share').append(newGameGeneratedSuccessDOM);
+					$('#user-area-share').append(gameShareDOM);
+					$('#user-area-share').append(playGameButtonDOM);
+					$('#game-link').text(gameLink);
+				}
+			});
+
+			$('#user-area-share').on('click', function(e){
+				if(e.target.id === "share-url-whatsapp"){
+					let whatsAppText = "Don't join it if you are easily addicted to games: " + gameLink
+					let whatsAppLink = 'https://wa.me/?text=' + encodeURI(whatsAppText)
+					window.open(whatsAppLink)
+				}
+				if(e.target.id === "share-url-twitter"){
+					let twitterText = "Don't join it if you are easily addicted to games: " + gameLink
+					let twitterLink = 'https://twitter.com/intent/tweet?text=' + encodeURI(twitterText)
+					window.open(twitterLink)
+				}
+				if(e.target.id === "share-url-clipboard"){
+					copyToClipboard(gameLink);
+					alert("Link copied successfully!")
+				}
+				if(e.target.id === "play"){
+					window.location.href = gameLink;
+				}
+			})
+		})
+
+		function isNameValid(){
+			const name = $('#inputName').val()
+			if(name.length < 3){
+				alert("Please enter name greater then three characters.")
+				return false;
+			}
+			if(name.length > 20){
+				alert("Your name should not exceed 20 characters.")
+				return false;
+			}
+			return true;
+		}
+
+		function generateRandomId(idLength) {
+			let r = Math.random().toString(36).substring(idLength);
+			return r;
+		}
+
+		function copyToClipboard(text) {
+    	var dummy = document.createElement("textarea");
+    	document.body.appendChild(dummy);
+    	dummy.value = text;
+    	dummy.select();
+    	document.execCommand("copy");
+    	document.body.removeChild(dummy);
+		}
+
+	</script>
+</body>
+
 </html>
