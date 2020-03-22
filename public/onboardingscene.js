@@ -17,7 +17,7 @@ class OnboardingScene extends Phaser.Scene{
         
 
 	
-		const playButton = this.add.text(game.config.width/2 - (game.config.width / 20 + 100), game.config.height/2 + 100, 'CLICK HERE TO PLAY', { fontSize: game.config.width / 20});
+		const playButton = this.add.text(game.config.width/2 - (game.config.width / 20 + 100), game.config.height/2 + 100, 'TAP HERE TO PLAY', { fontSize: game.config.width / 20});
 	    playButton.setInteractive();
 	    
 	    var self = this;

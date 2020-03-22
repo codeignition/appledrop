@@ -30,15 +30,9 @@ class MenuScene extends Phaser.Scene{
 				localStorage.setItem('playerName', name);
 			}
 	  }
-	  else {
-			name = localStorage.getItem('playerName');
-		}
 
-		var helloText = 'Hello ' + name + ''; 
-		
-		this.add.text(game.config.width/2 - (game.config.width / 20  + 100), game.config.height/2 - 50, helloText, { fontSize: game.config.width / 20});
-	 	
-	 	const playButton = this.add.text(game.config.width/2 - (game.config.width / 20  + 100), game.config.height/2, 'CLICK HERE TO PLAY', { fontSize: game.config.width / 20});
+
+	 	const playButton = this.add.text(game.config.width/2 - (game.config.width / 20  + 100), game.config.height/2, 'TAP HERE TO PLAY', { fontSize: game.config.width / 20});
 	    playButton.setInteractive();
 	    
 	    var self = this;
@@ -52,7 +46,7 @@ class MenuScene extends Phaser.Scene{
 
 	    });
 
-	 	const howToPlay = this.add.text(game.config.width/2 - (game.config.width / 20  + 100), game.config.height/2 + 50, 'HOW TO PLAY?', { fontSize: game.config.width / 20});
+	 	const howToPlay = this.add.text(game.config.width/2 - (game.config.width / 20  + 100), game.config.height/2 + 50, 'LEARN HOW TO PLAY?', { fontSize: game.config.width / 20});
 	    howToPlay.setInteractive();
 	    
 	    var self = this;

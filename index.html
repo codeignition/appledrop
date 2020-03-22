@@ -55,9 +55,6 @@
 		<div class="row">
 			<div class="col-md-3"></div>
 			<div class="col-md-6">
-				<div class="new-game-text">
-					Welcome to AppleDrop.
-				</div>
 				<div id="user-area-share"></div>
 				<div id="user-area">
 					<div class="new-game-text">
@@ -84,40 +81,30 @@
 	<script src="assets/bootstrap_js/bootstrap.min.js"></script>
 	<script src="https://use.fontawesome.com/releases/v5.12.1/js/all.js" data-auto-replace-svg="nest"></script>
 	<script>
-		$(document).ready(function () {
+        var gameLink = '';
 
-			var gameLink = '';
+        var newGameGeneratedSuccessDOM = '<b>Game Created Successfully! Share the game with your friends to play with them.</b> <br/> ';
 
-			var newGameGeneratedSuccessDOM = 'New game created. Please share link with your friends first and open the link below to start playing.' +
-																				'<div id="game-card" class="card">' +
-																				'<div class="card-body">' +
-    																			'<span id="game-link"></span>' +
-  																			'</div>' +
-																			'</div>';
+        var gameShareDOM = '<div id="game-share-info">' +
+            '<button id="share-url-whatsapp" type="button" class="btn btn-block btn-primary">Share it on Whatsapp <i class="fab fa-whatsapp"></i></button>' +
+            '<button id="share-url-twitter" type="button" class="btn btn-block btn-primary">Share it on Twitter <i class="fab fa-twitter"></i></button>' +
+            '<button id="share-url-clipboard" type="button" class="btn btn-block btn-primary">Copy URL to <i class="fas fa-clipboard"></button>' +
+            '</div>';
 
-			var gameShareDOM = '<div id="game-share-info">' +
-															'<button id="share-url-whatsapp" type="button" class="btn btn-block btn-success">Share it on <i class="fab fa-whatsapp"></i></button>' +
-															'<button id="share-url-twitter" type="button" class="btn btn-block btn-primary">Share it on <i class="fab fa-twitter"></i></button>' +
-															'<button id="share-url-clipboard" type="button" class="btn btn-block btn-default">Copy URL to <i class="fas fa-clipboard"></button>' +
-													'</div>';
+        var playGameButtonDOM = '<button id="play" type="button" class="btn btn-block btn-success" style="text-align:center;">Play</button>'
 
-			var playGameButtonDOM = '<button id="play" type="button" class="btn btn-block btn-success" style="text-align:center;">Play</button>'
+
+        $(document).ready(function () {
+			if(localStorage.getItem('playerName') !== null) {
+                showShareMenu();
+			}
 
 			$('#create-game-action').on('click', function () {
 
 				if(isNameValid()){
 					const name = $('#inputName').val();
 					localStorage.setItem('playerName', name);
-					const randomId = generateRandomId(6);
-					gameLink = window.location.href + 'game?game_name=' + randomId;
-
-					//unmount existing DOM
-					$('#user-area').remove();
-					//mount share option DOM
-					$('#user-area-share').append(newGameGeneratedSuccessDOM);
-					$('#user-area-share').append(gameShareDOM);
-					$('#user-area-share').append(playGameButtonDOM);
-					$('#game-link').text(gameLink);
+					showShareMenu();
 				}
 			});
 
@@ -140,7 +127,20 @@
 					window.location.href = gameLink;
 				}
 			})
-		})
+		});
+
+		function showShareMenu() {
+            const randomId = generateRandomId(6);
+            gameLink = window.location.href + 'game?game_name=' + randomId;
+
+            //unmount existing DOM
+            $('#user-area').remove();
+            //mount share option DOM
+            $('#user-area-share').append(newGameGeneratedSuccessDOM);
+            $('#user-area-share').append(gameShareDOM);
+            $('#user-area-share').append(playGameButtonDOM);
+            $('#game-link').text(gameLink);
+		}
 
 		function isNameValid(){
 			const name = $('#inputName').val()

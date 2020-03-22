@@ -21,6 +21,7 @@ class GameOverScene extends Phaser.Scene{
 	    playButton.setInteractive();
 	    
 	    var self = this;
+
 	    playButton.on('pointerdown', () => { 
 	    	console.log(new Date().getTime() - self.previousTime > 10000);
 	    	if(self.previousTime == null || new Date().getTime() - self.previousTime > 1000) {
@@ -31,6 +32,14 @@ class GameOverScene extends Phaser.Scene{
 	        }
 
 	    });
+
+        const newGameButtton = this.add.text(game.config.width/2 - (game.config.width / 20  + 100), game.config.height/2 + 100, 'CREATE A NEW GAME', { fontSize: game.config.width / 20});
+        newGameButtton.setInteractive();
+
+        newGameButtton.on('pointerdown', () => {
+            window.location.href = '/'
+
+        });
 
 	}
 
