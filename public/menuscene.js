@@ -6,12 +6,18 @@ class MenuScene extends Phaser.Scene{
 	}
 
 	preload(){
-
+		this.load.image("bg", "assets/storm-bg-2.jpg");
 	}
 
 	create(){
-		this.cameras.main.backgroundColor = Phaser.Display.Color.HexStringToColor("#697e96");
-		
+ 	this.bg = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'bg')
+    let scaleX = this.cameras.main.width / this.bg.width
+    let scaleY = this.cameras.main.height / this.bg.height
+    let scale = Math.max(scaleX, scaleY)
+    
+    this.bg.setScale(scale).setScrollFactor(0)
+        this.bg.tint = Phaser.Display.Color.GetColor32(34, 34, 34, .9);
+
 		var name = '';
 		
 		if(localStorage.getItem('name') === null ) {
@@ -55,4 +61,8 @@ class MenuScene extends Phaser.Scene{
 	    });
 	}
 
+	update(time) {
+
+		
+	}
 }
