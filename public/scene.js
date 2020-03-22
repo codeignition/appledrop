@@ -339,7 +339,7 @@ class playGame extends Phaser.Scene {
         container.body.onWorldBounds = true
         container.body.bounce.set(.3);
 
-        var score = this.add.text(0, -20, "Score: 0", {font: "16px Arial", fill: "#ffffff"});
+        var score = this.add.text(0, -20, "Score: 0", {font: "16px Arial", fill: "#000000"});
 
         container.add([playerSprite, score]);
         container.setDepth(100);
