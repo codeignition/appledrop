@@ -62,6 +62,7 @@ class playGame extends Phaser.Scene {
       this.bg.tint = Phaser.Display.Color.GetColor32(34, 34, 34, .9);
       var music = this.sound.add('backgroundSound');
       this.thunderSound = this.sound.add('thunder');
+      this.highestScore = this.add.text(this.cameras.main.width/2 - 50, 25, " ", {font: "16px Arial", fill: "#ffffff"});
       music.setLoop(true)
       music.play()
       var self = this;
@@ -126,6 +127,10 @@ class playGame extends Phaser.Scene {
           var score = container.getAt(1);
           score.setText(data.playerName + ": " + data.score);
       });
+      this.socket.on('highestScore', function (data) {
+        self.add.text(self.cameras.main.width/2 - 50, 10, "HIGHEST SCORE", {font: "18px Arial", fill: "#ffffff"});
+        self.highestScore.setText(data.playerName + ": " + data.score);
+    });
       this.physics.world.on('worldbounds', this.onWorldBounds, this)
   }
 

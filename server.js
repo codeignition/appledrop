@@ -9,6 +9,8 @@ var io = require('socket.io').listen(server);
 var playersInRooms = {};
 //{socketId: roomName}
 var socketIdRoomNameMap = {};
+
+var highestScoreInRoom = {};
  
 app.use(express.static(__dirname + '/public'));
  
@@ -90,6 +92,15 @@ io.on('connection', function (socket) {
 
   socket.on('scoreUpdate', function (data) {
     socket.to(socketIdRoomNameMap[data.playerId]).emit('scoreUpdate', data);
+
+    var highestScore = highestScoreInRoom[socketIdRoomNameMap[data.playerId]]
+    
+    if(highestScore === undefined || data.score > highestScore.score) {
+      highestScore = {playerName: data.playerName, score:data.score}
+    }
+    highestScoreInRoom[socketIdRoomNameMap[data.playerId]] = highestScore;
+
+    socket.to(socketIdRoomNameMap[data.playerId]).emit('highestScore', highestScore);
   });
 
 
