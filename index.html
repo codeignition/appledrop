@@ -65,7 +65,9 @@
 							<label for="inputName">Name</label>
 							<input type="text" class="form-control" id="inputName" placeholder="Enter name" required>
 						</div>
-						<button id="create-game-action" type="button" class="btn btn-block btn-success">Create New Game</button>
+
+						<button id="create-global-game-action" type="button" class="btn btn-block btn-success">Enter Global Game</button>
+						<button id="create-game-action" type="button" class="btn btn-block btn-success">Create Personal Game</button>
 					</form>
 				</div>
 			</div>
@@ -91,13 +93,25 @@
             '<button id="share-url-clipboard" type="button" class="btn btn-block btn-primary">Copy URL to Invite <i class="fas fa-clipboard"></button>' +
             '</div>';
 
-        var playGameButtonDOM = '<button id="play" type="button" class="btn btn-block btn-success" style="text-align:center;">Play</button>'
+				var playGameButtonDOM = '<button id="play" type="button" class="btn btn-block btn-success" style="text-align:center;">Play</button>'
+				
+				var createGameButtonsDOM = '<button id="create-global-game-action" type="button" class="btn btn-block btn-success">Enter Global Game</button>' +
+																		'<button id="create-game-action" type="button" class="btn btn-block btn-success">Create Personal Game</button>';
 
 
         $(document).ready(function () {
 			if(localStorage.getItem('playerName') !== null) {
-                showShareMenu();
+				$('#user-area').remove();
+				showGameMenu();
 			}
+
+			$('#create-global-game-action').on('click', function(){
+				if(isNameValid()){
+					const name = $('#inputName').val();
+					localStorage.setItem('playerName', name);
+					window.location.href = window.location.href + 'game?game_name=global_game';
+				}
+			})
 
 			$('#create-game-action').on('click', function () {
 
@@ -126,8 +140,18 @@
 				if(e.target.id === "play"){
 					window.location.href = gameLink;
 				}
+				if(e.target.id === "create-global-game-action"){
+					window.location.href = window.location.href + 'game?game_name=global_game';
+				}
+				if(e.target.id === "create-game-action"){
+					showShareMenu();
+				}
 			})
 		});
+
+		function showGameMenu(){
+			$('#user-area-share').append(createGameButtonsDOM);
+		}
 
 		function showShareMenu() {
             const randomId = generateRandomId(6);

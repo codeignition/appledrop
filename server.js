@@ -100,7 +100,7 @@ io.on('connection', function (socket) {
     }
     highestScoreInRoom[socketIdRoomNameMap[data.playerId]] = highestScore;
 
-    socket.to(socketIdRoomNameMap[data.playerId]).emit('highestScore', highestScore);
+    io.to(socketIdRoomNameMap[data.playerId]).emit('highestScore', highestScore);
   });
 
 
