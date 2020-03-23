@@ -33,13 +33,19 @@ class GameOverScene extends Phaser.Scene{
 
 	    });
 
-        const newGameButtton = this.add.text(game.config.width/2 - (game.config.width / 20  + 100), game.config.height/2 + 100, 'CREATE A NEW GAME', { fontSize: game.config.width / 20});
-        newGameButtton.setInteractive();
+			const globalGameButtton = this.add.text(game.config.width/2 - (game.config.width / 20  + 100), game.config.height/2 + 100, 'ENTER GLOBAL GAME', { fontSize: game.config.width / 20});	
+			const newGameButtton = this.add.text(game.config.width/2 - (game.config.width / 20  + 100), game.config.height/2 + 150, 'CREATE A PERSONAL GAME', { fontSize: game.config.width / 20});
+			
+			globalGameButtton.setInteractive();
+			newGameButtton.setInteractive();
 
-        newGameButtton.on('pointerdown', () => {
-            window.location.href = '/'
-
-        });
+      newGameButtton.on('pointerdown', () => {
+          window.location.href = '/'
+			});
+			
+			globalGameButtton.on('pointerdown', () => {
+				window.location.href = '../../game?game_name=global_name'
+		});
 
 	}
 
