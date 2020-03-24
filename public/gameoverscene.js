@@ -44,7 +44,7 @@ class GameOverScene extends Phaser.Scene{
 			});
 			
 			globalGameButtton.on('pointerdown', () => {
-				window.location.href = '../../game?game_name=global_name'
+				window.location.href = '../../game?game_name=global_game'
 		});
 
 	}
