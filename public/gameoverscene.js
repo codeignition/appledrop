@@ -42,9 +42,12 @@ class GameOverScene extends Phaser.Scene {
 
         const globalGameButtton = this.add.text(game.config.width / 2 - (game.config.width / 20 + 100), game.config.height / 2 + 100, 'ENTER GLOBAL GAME', {fontSize: game.config.width / 20});
         const newGameButtton = this.add.text(game.config.width / 2 - (game.config.width / 20 + 100), game.config.height / 2 + 150, 'CREATE A PERSONAL GAME', {fontSize: game.config.width / 20});
+        const getYourFeedback = this.add.text(game.config.width / 2 - (game.config.width / 20 + 100), game.config.height / 2 + 200, 'SHARE YOUR FEEDBACK', {fontSize: game.config.width / 20});
+
 
         globalGameButtton.setInteractive();
         newGameButtton.setInteractive();
+        getYourFeedback.setInteractive();
 
         newGameButtton.on('pointerdown', () => {
             window.location.href = '/'
@@ -52,6 +55,10 @@ class GameOverScene extends Phaser.Scene {
 
         globalGameButtton.on('pointerdown', () => {
             window.location.href = '../../game?game_name=global_game'
+        });
+
+        getYourFeedback.on('pointerdown', () => {
+            window.location.href = 'https://forms.gle/pPSwrwnq5CtHwY1MA'
         });
 
     }
