@@ -1,16 +1,15 @@
+class GameOverScene extends Phaser.Scene {
 
-class GameOverScene extends Phaser.Scene{
-	
-	constructor(){
-		super('GameOverScene')
-	}
+    constructor() {
+        super('GameOverScene')
+    }
 
-	preload(){
+    preload() {
         this.load.image("bg", "assets/china.png");
-	}
+    }
 
 
-	create(){
+    create() {
 
         this.bg = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'bg')
         let scaleX = this.cameras.main.width / this.bg.width
@@ -20,41 +19,41 @@ class GameOverScene extends Phaser.Scene{
         this.bg.setScale(scale).setScrollFactor(0)
         this.bg.tint = Phaser.Display.Color.GetColor32(34, 34, 34, .9);
 
-		let title = this.add.text(0, 0, "GAME OVER", {
+        let title = this.add.text(0, 0, "GAME OVER", {
             fontSize: game.config.width / 20
-		});
-		title.setPosition(game.config.width/2 - (game.config.width / 20 + 100), game.config.height/2);
+        });
+        title.setPosition(game.config.width / 2 - (game.config.width / 20 + 100), game.config.height / 2);
 
-		const playButton = this.add.text(game.config.width/2 - (game.config.width / 20  + 100), game.config.height/2 + 50, 'RETRY', { fontSize: game.config.width / 20});
-	    playButton.setInteractive();
-	    
-	    var self = this;
+        const playButton = this.add.text(game.config.width / 2 - (game.config.width / 20 + 100), game.config.height / 2 + 50, 'RETRY', {fontSize: game.config.width / 20});
+        playButton.setInteractive();
 
-	    playButton.on('pointerdown', () => { 
-	    	console.log(new Date().getTime() - self.previousTime > 10000);
-	    	if(self.previousTime == null || new Date().getTime() - self.previousTime > 1000) {
-				this.scene.stop();
-				var theOtherScene = this.scene.get('PlayGame');
-		    	theOtherScene.scene.restart();
-		    	self.previousTime = new Date().getTime();
-	        }
+        var self = this;
 
-	    });
+        playButton.on('pointerdown', () => {
+            console.log(new Date().getTime() - self.previousTime > 10000);
+            if (self.previousTime == null || new Date().getTime() - self.previousTime > 1000) {
+                this.scene.stop();
+                var theOtherScene = this.scene.get('PlayGame');
+                theOtherScene.scene.restart();
+                self.previousTime = new Date().getTime();
+            }
 
-			const globalGameButtton = this.add.text(game.config.width/2 - (game.config.width / 20  + 100), game.config.height/2 + 100, 'ENTER GLOBAL GAME', { fontSize: game.config.width / 20});	
-			const newGameButtton = this.add.text(game.config.width/2 - (game.config.width / 20  + 100), game.config.height/2 + 150, 'CREATE A PERSONAL GAME', { fontSize: game.config.width / 20});
-			
-			globalGameButtton.setInteractive();
-			newGameButtton.setInteractive();
+        });
 
-      newGameButtton.on('pointerdown', () => {
-          window.location.href = '/'
-			});
-			
-			globalGameButtton.on('pointerdown', () => {
-				window.location.href = '../../game?game_name=global_game'
-		});
+        const globalGameButtton = this.add.text(game.config.width / 2 - (game.config.width / 20 + 100), game.config.height / 2 + 100, 'ENTER GLOBAL GAME', {fontSize: game.config.width / 20});
+        const newGameButtton = this.add.text(game.config.width / 2 - (game.config.width / 20 + 100), game.config.height / 2 + 150, 'CREATE A PERSONAL GAME', {fontSize: game.config.width / 20});
 
-	}
+        globalGameButtton.setInteractive();
+        newGameButtton.setInteractive();
+
+        newGameButtton.on('pointerdown', () => {
+            window.location.href = '/'
+        });
+
+        globalGameButtton.on('pointerdown', () => {
+            window.location.href = '../../game?game_name=global_game'
+        });
+
+    }
 
 }
