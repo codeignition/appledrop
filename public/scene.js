@@ -24,9 +24,9 @@ class playGame extends Phaser.Scene {
         this.score = 0;
 
 
-        this.load.image("bird", "assets/ghost-small.png");
+        this.load.image("bird", "assets/aam-aadmi.png");
 
-        this.load.image('pin', "../assets/cross-small.png");
+        this.load.image('pin', "../assets/corona-virus.png");
         this.load.image('mountains-back', "../assets/fenc-small.png");
         this.load.atlas('flares', 'assets/flares.png', 'assets/flares.json');
 
