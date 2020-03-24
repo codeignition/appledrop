@@ -22,17 +22,22 @@ class playGame extends Phaser.Scene {
         this.playersSprite = {};
         this.playerPreviousLocation = null
         this.score = 0;
+        this.bgMusic = null;
 
 
-        this.load.image("bird", "assets/aam-aadmi.png");
+        this.load.image("bird", "assets/master-roshi.png");
+
+        this.load.image('pin2', "../assets/corona-virus-tongue.png");
 
         this.load.image('pin', "../assets/corona-virus.png");
+
         this.load.image('mountains-back', "../assets/fenc-small.png");
         this.load.atlas('flares', 'assets/flares.png', 'assets/flares.json');
 
 
         this.cursorKeys = this.input.keyboard.createCursorKeys();
-        this.load.audio('backgroundSound', 'assets/bg-music.mp3', {
+
+        this.load.audio('backgroundSound', 'assets/china-1.mp3', {
             instances: 1
         });
 
@@ -50,23 +55,31 @@ class playGame extends Phaser.Scene {
         this.lastThunderTime = new Date().getTime();
 
         this.playerName = localStorage.getItem('playerName');
+        this.cameras.main.backgroundColor = Phaser.Display.Color.HexStringToColor("#D3D3D3");
+
 
     }
 
     create() {
-      this.bg = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'bg')
+
+       this.bg = this.add.tileSprite(this.cameras.main.width / 2, this.cameras.main.height / 2, 5000, 500, 'bg');
+
       let scaleX = this.cameras.main.width / this.bg.width
       let scaleY = this.cameras.main.height / this.bg.height
-      let scale = Math.max(scaleX, scaleY)
-      this.bg.setScale(scale).setScrollFactor(0)
-      this.bg.tint = Phaser.Display.Color.GetColor32(34, 34, 34, .9);
-      var music = this.sound.add('backgroundSound');
+      let scale = Math.max(scaleX, scaleY);
+      this.bg.setScale(scale).setScrollFactor(0);
+      this.bgMusic =  this.sound.add('backgroundSound');
+
       this.thunderSound = this.sound.add('thunder');
-      this.highestScore = this.add.text(this.cameras.main.width/2 - 50, 25, " ", {font: "16px Arial", fill: "#ffffff"});
-      music.setLoop(true)
-      music.play()
+      this.highestScore = this.add.text(this.cameras.main.width/2 - 50, 25, " ", {font: "16px Arial", fill: "#000000"});
+      this.bgMusic.setLoop(true);
+      this.bgMusic.play();
+      this.bgMusic.setVolume(.1);
+
       var self = this;
-      this.mountainsBack = this.add.tileSprite(0, game.config.height + 150, 5000, 500, 'mountains-back');
+
+
+
       let gameName = new URLSearchParams(location.search).get('game_name');
       this.socket = io.connect(window.location.origin, {query: 'room=' + gameName})
       this.socket.on('currentPlayers', function (players) {
@@ -128,7 +141,7 @@ class playGame extends Phaser.Scene {
           score.setText(data.playerName + ": " + data.score);
       });
       this.socket.on('highestScore', function (data) {
-        self.add.text(self.cameras.main.width/2 - 50, 10, "HIGHEST SCORE", {font: "18px Arial", fill: "#ffffff"});
+        self.add.text(self.cameras.main.width/2 - 50, 10, "HIGHEST SCORE", {font: "18px Arial", fill: "#000000"});
         self.highestScore.setText(data.playerName + ": " + data.score);
     });
       this.physics.world.on('worldbounds', this.onWorldBounds, this)
@@ -142,6 +155,7 @@ class playGame extends Phaser.Scene {
 
     stopTheGame(enemies, bird) {
         this.cameras.main.shake(500);
+        this.bgMusic.stop();
 
         this.cameras.main.fade(250);
         this.time.delayedCall(250, function () {
@@ -179,10 +193,13 @@ class playGame extends Phaser.Scene {
               delete self.enemies[id];
           }
       });
-      this.mountainsBack.tilePositionX += 5;
+
+      this.bg.tilePositionX += 2;
+
       var thunderProb = Math.random() > .998;
       if (thunderProb === false && this.lastThunderTime != null && ((time - this.lastThunderTime) >= 200)) {
-          this.bg.tint = Phaser.Display.Color.GetColor32(59, 59, 59, .5);
+
+          this.bg.tint = 0xffffff;
           this.thunderActive  =  false;
       } else {
           this.bg.tint = 0xffffff;
@@ -195,9 +212,8 @@ class playGame extends Phaser.Scene {
           this.animateLightning();
       }else if(thunderProb === true && this.showLightning === false) {
           this.showLightning = true;
-          console.log("deven");
+
           if(this.thunderSoundPlayedTime == null || (time - this.thunderSoundPlayedTime >= 5000)) {
-              console.log("deven");
               this.thunderSound.setVolume(random(10, 50)/100);
               this.thunderSound.play();
               this.thunderSoundPlayedTime = time;
@@ -322,7 +338,13 @@ class playGame extends Phaser.Scene {
     }
 
     addEnemy(enemy) {
-        var pin = this.physics.add.sprite(enemy.x, enemy.y, 'pin');
+        var pin;
+
+        if(Math.random() > .7) {
+            pin = this.physics.add.sprite(enemy.x, enemy.y, 'pin2');
+        }else {
+            pin = this.physics.add.sprite(enemy.x, enemy.y, 'pin');
+        }
 
         pin.setVelocity(-100, 10);
         pin.setDepth(100);

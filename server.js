@@ -23,9 +23,33 @@ app.get('/game', function (req, res) {
 });
  
 
+var previousY;
+
  setTimeout(function prn(i){
+    var y = 0;
     console.log('Creating enemy');
-    io.emit('enemyCreated', {x: 360, y: Math.floor(Math.random() * 450)});
+    if(previousY === undefined) {
+        previousY = Math.floor(Math.random() * 450);
+        y = previousY;
+    }
+    else {
+      while(true) {
+          var newY = Math.floor(Math.random() * 450);
+          if(Math.abs(newY - previousY) >= 30) {
+            y = newY;
+            previousY = newY;
+            break;
+          }
+
+      }
+    }
+
+    console.log(y);
+
+    io.emit('enemyCreated', {x: 360, y: y});
+
+
+
     setTimeout(prn, 2000, i);
   }, 2000, 0);
 
