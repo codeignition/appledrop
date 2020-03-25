@@ -1,0 +1,15 @@
+{
+  "short_name": "AppleDrop",
+  "name": "AppleDrop",
+  "icons": [
+    {
+      "src":"assets/fireworks-icon192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#FFFFFF",
+  "Theme_color": "",
+  "display": "standalone"
+}
