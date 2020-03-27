@@ -8,7 +8,7 @@
 	<meta name="author" content="">
 	<link rel="static/img/favicon.ico">
 
-	<title>AppleDrop</title>
+	<title>GoCorona</title>
 
 	<!-- Bootstrap core CSS -->
 	<link href="assets/bootstrap_css/bootstrap.min.css" rel="stylesheet">
@@ -29,7 +29,8 @@
 
 	<style type="text/css">
 		.main-page {
-			margin-top: 80px;
+			/*margin-top: 95%;*/
+			margin-top: 320px;
 		}
 
 		.new-game-text {
@@ -41,28 +42,36 @@
 			margin-top: 15px;
 			margin-bottom: 15px;
 		}
+		html {
+			background: url(assets/china-bg-new.jpg) no-repeat center center fixed;
+			-webkit-background-size: cover;
+			-moz-background-size: cover;
+			-o-background-size: cover;
+			background-size: cover;
+		}
+
+		body {
+			background:none !important;
+		}
+		.game-margin {
+			margin: 0px 70px 0px 70px;
+		}
+
 	</style>
 
 </head>
 
 <body>
 
-	<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-		<a class="navbar-brand" href="#">AppleDrop</a>
-	</nav>
 
 	<div class="main-page" class="container-fluid">
 		<div class="row">
 			<div class="col-md-3"></div>
-			<div class="col-md-6">
-				<div id="user-area-share"></div>
-				<div id="user-area">
-					<div class="new-game-text">
-						Please enter your name to start a new game.
-					</div>
+			<div class="col-md-6" style="padding: 0px;">
+				<div id="user-area-share" class="game-margin"></div>
+				<div id="user-area" class="game-margin">
 					<form>
 						<div class="form-group">
-							<label for="inputName">Name</label>
 							<input type="text" class="form-control" id="inputName" placeholder="Enter name" required>
 						</div>
 
@@ -85,7 +94,6 @@
 	<script>
         var gameLink = '';
 
-        var newGameGeneratedSuccessDOM = '<b>Play with your friends and defeat them!!!</b> <br/> ';
 
         var gameShareDOM = '<div id="game-share-info">' +
             '<button id="share-url-whatsapp" type="button" class="btn btn-block btn-primary">Invite friends from Whatsapp <i class="fab fa-whatsapp"></i></button>' +
@@ -160,7 +168,6 @@
             //unmount existing DOM
             $('#user-area').remove();
             //mount share option DOM
-            $('#user-area-share').append(newGameGeneratedSuccessDOM);
             $('#user-area-share').append(gameShareDOM);
             $('#user-area-share').append(playGameButtonDOM);
             $('#game-link').text(gameLink);
