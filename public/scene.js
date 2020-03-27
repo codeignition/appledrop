@@ -20,10 +20,11 @@ class playGame extends Phaser.Scene {
         this.enemies = [];
 
         this.playersSprite = {};
-        this.playerPreviousLocation = null
+        this.playerPreviousLocation = null;
         this.score = 0;
         this.bgMusic = null;
 
+        this.load.image("bg", "assets/china.png");
 
         this.load.image("bird", "assets/master-roshi.png");
 
@@ -32,7 +33,7 @@ class playGame extends Phaser.Scene {
         this.load.image('pin', "../assets/corona-virus.png");
 
         this.load.image('mountains-back', "../assets/fenc-small.png");
-        this.load.atlas('flares', 'assets/flares.png', 'assets/flares.json');
+
 
 
         this.cursorKeys = this.input.keyboard.createCursorKeys();
@@ -55,13 +56,20 @@ class playGame extends Phaser.Scene {
         this.lastThunderTime = new Date().getTime();
 
         this.playerName = localStorage.getItem('playerName');
-        this.cameras.main.backgroundColor = Phaser.Display.Color.HexStringToColor("#D3D3D3");
+
+        this.cameras.main.backgroundColor = Phaser.Display.Color.HexStringToColor("#000000");
+
+        this.loader = this.add.text(this.cameras.main.width / 2 - 40, this.cameras.main.height / 2, "CI LABS", {
+            font: "20px Arial",
+            fill: "#ffffff"
+        });
 
 
     }
 
     create() {
-
+        this.loader.destroy();
+        this.cameras.main.backgroundColor = Phaser.Display.Color.HexStringToColor("#D3D3D3");
         this.bg = this.add.tileSprite(this.cameras.main.width / 2, this.cameras.main.height / 2, 5000, 500, 'bg');
 
         let scaleX = this.cameras.main.width / this.bg.width
@@ -83,7 +91,8 @@ class playGame extends Phaser.Scene {
 
 
         let gameName = new URLSearchParams(location.search).get('game_name');
-        this.socket = io.connect(window.location.origin, {query: 'room=' + gameName})
+        this.socket = io.connect(window.location.origin, {query: 'room=' + gameName});
+
         this.socket.on('currentPlayers', function (players) {
             Object.keys(players).forEach(function (id) {
                 var player = players[id];
@@ -100,6 +109,7 @@ class playGame extends Phaser.Scene {
             });
             self.physics.add.overlap(self.enemies, self.playersSprite[self.socket.id], self.stopTheGame, null, self);
         });
+
         this.socket.on('playerMoved', function (player) {
             if (player.playerId in self.playersSprite) {
                 self.playersSprite[player.playerId].x = player.x;

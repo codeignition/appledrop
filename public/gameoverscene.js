@@ -5,13 +5,13 @@ class GameOverScene extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image("bg", "assets/china.png");
+        this.load.image("bg-gameover", "assets/china-bg-new.jpg");
     }
 
 
     create() {
 
-        this.bg = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'bg')
+        this.bg = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'bg-gameover')
         let scaleX = this.cameras.main.width / this.bg.width
         let scaleY = this.cameras.main.height / this.bg.height
         let scale = Math.max(scaleX, scaleY)
