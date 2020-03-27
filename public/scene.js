@@ -59,7 +59,7 @@ class playGame extends Phaser.Scene {
 
         this.cameras.main.backgroundColor = Phaser.Display.Color.HexStringToColor("#000000");
 
-        this.loader = this.add.text(this.cameras.main.width / 2 - 40, this.cameras.main.height / 2, "CI LABS", {
+        this.loader = this.add.text(this.cameras.main.width / 2 - 65, this.cameras.main.height / 2, "GO-CORONA", {
             font: "20px Arial",
             fill: "#ffffff"
         });
