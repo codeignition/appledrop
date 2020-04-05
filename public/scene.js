@@ -112,8 +112,18 @@ class playGame extends Phaser.Scene {
 
         this.socket.on('playerMoved', function (player) {
             if (player.playerId in self.playersSprite) {
+                var hMax = Math.max(player.h, screen.height);
+                if (hMax === screen.height){
+                    var largeScreen = screen.height;
+                    var smallScreen = player.h;
+                    var finalHeight = player.y * (largeScreen / smallScreen)
+                }else{
+                    var largeScreen = player.h;
+                    var smallScreen = screen.height;
+                    var finalHeight = player.y / (largeScreen / smallScreen)
+                }
                 self.playersSprite[player.playerId].x = player.x;
-                self.playersSprite[player.playerId].y = player.y;
+                self.playersSprite[player.playerId].y = finalHeight;
             } else {
                 console.log(player)
                 console.log("not found^")
@@ -190,7 +200,7 @@ class playGame extends Phaser.Scene {
                 playerSprite.body.setVelocity(0, -200)
             }
             if (this.playerPreviousLocation != null && (playerSprite.x != this.playerPreviousLocation.x || playerSprite.y != this.playerPreviousLocation.y))
-                this.socket.emit('movementChanged', {x: playerSprite.x, y: playerSprite.y, playerId: this.socket.id})
+                this.socket.emit('movementChanged', {x: playerSprite.x, y: playerSprite.y, h: screen.height, playerId: this.socket.id})
             this.playerPreviousLocation = {x: playerSprite.x, y: playerSprite.y,}
         }
         var self = this;

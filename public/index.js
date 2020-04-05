@@ -2,7 +2,7 @@ const config = {
     type: Phaser.AUTO,
     parent: "phaser",
     width: 360,
-    height: 640,
+    height: screen.height,
     scene: [MenuScene, playGame, GameOverScene, OnboardingScene],
     physics:
         {
